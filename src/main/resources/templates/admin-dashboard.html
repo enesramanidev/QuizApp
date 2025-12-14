@@ -1,239 +1,253 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Teacher Dashboard</title>
     <style>
-        :root {
-            --bg: #101114;
-            --card: #1b1d23;
-            --card-light: #f4f4f6;
-            --text-primary: #ffffff;
-            --text-muted: #c6c7cc;
-            --accent: #4f7df3;
-            --accent-soft: rgba(79, 125, 243, 0.18);
-        }
+      :root {
+        --bg: #101114;
+        --card: #1b1d23;
+        --card-light: #f4f4f6;
+        --text-primary: #ffffff;
+        --text-muted: #c6c7cc;
+        --accent: #4f7df3;
+        --accent-soft: rgba(79, 125, 243, 0.18);
+      }
 
-        * {
-            box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-        }
+      * {
+        box-sizing: border-box;
+        font-family: "Inter", "Segoe UI", sans-serif;
+      }
 
-        body {
-            margin: 0;
-            background-color: var(--bg);
-            color: var(--text-primary);
-            min-height: 100vh;
-        }
+      body {
+        margin: 0;
+        background-color: var(--bg);
+        color: var(--text-primary);
+        min-height: 100vh;
+      }
 
-        .page {
-            max-width: 1024px;
-            margin: 0 auto;
-            padding: 48px 24px 80px;
-        }
+      .page {
+        max-width: 1024px;
+        margin: 0 auto;
+        padding: 48px 24px 80px;
+      }
 
-        header {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 32px;
-        }
+      header {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 32px;
+      }
 
-        header h1 {
-            font-size: 28px;
-            font-weight: 600;
-            margin: 0;
-        }
+      header h1 {
+        font-size: 28px;
+        font-weight: 600;
+        margin: 0;
+      }
 
-        header p {
-            margin: 0;
-            color: var(--text-muted);
-        }
+      header p {
+        margin: 0;
+        color: var(--text-muted);
+      }
 
-        .logout-link {
-            margin-left: auto;
-            text-decoration: none;
-            color: var(--text-muted);
-            font-size: 14px;
-        }
+      .logout-link {
+        margin-left: auto;
+        text-decoration: none;
+        color: var(--text-muted);
+        font-size: 14px;
+      }
 
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 18px;
-            margin-top: 32px;
-        }
+      .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px;
+        margin-top: 32px;
+      }
 
-        .action-card {
-            background: var(--card);
-            border-radius: 18px;
-            padding: 28px;
-            text-decoration: none;
-            color: var(--text-primary);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
-            border: 1px solid transparent;
-            transition: transform 0.2s ease, border 0.2s ease;
-        }
+      .action-card {
+        background: var(--card);
+        border-radius: 18px;
+        padding: 28px;
+        text-decoration: none;
+        color: var(--text-primary);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+        border: 1px solid transparent;
+        transition: transform 0.2s ease, border 0.2s ease;
+      }
 
-        .action-card.primary {
-            background: var(--card-light);
-            color: #121212;
-        }
+      .action-card.primary {
+        background: var(--card-light);
+        color: #121212;
+      }
 
-        .action-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent-soft);
-        }
+      .action-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--accent-soft);
+      }
 
-        .action-card h2 {
-            margin: 0 0 6px;
-            font-size: 20px;
-        }
+      .action-card h2 {
+        margin: 0 0 6px;
+        font-size: 20px;
+      }
 
-        .action-card p {
-            margin: 0;
-            color: inherit;
-            opacity: 0.7;
-            font-size: 15px;
-        }
+      .action-card p {
+        margin: 0;
+        color: inherit;
+        opacity: 0.7;
+        font-size: 15px;
+      }
 
-        .badge {
-            display: inline-block;
-            margin-left: 8px;
-            padding: 2px 10px;
-            font-size: 12px;
-            border-radius: 999px;
-            background: var(--accent-soft);
-            color: var(--accent);
-        }
+      .badge {
+        display: inline-block;
+        margin-left: 8px;
+        padding: 2px 10px;
+        font-size: 12px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
 
+      .stats {
+        display: flex;
+        gap: 18px;
+        margin-top: 40px;
+      }
+
+      .stat-card {
+        flex: 1;
+        background: var(--card);
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+      }
+
+      .stat-card span.label {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .stat-card div.value {
+        font-size: 36px;
+        font-weight: 600;
+        margin-top: 6px;
+      }
+
+      .class-preview {
+        margin-top: 36px;
+        background: var(--card);
+        border-radius: 18px;
+        padding: 24px;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+      }
+
+      .class-preview h3 {
+        margin: 0 0 16px;
+        font-size: 18px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .class-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .class-row:last-child {
+        border-bottom: none;
+      }
+
+      .class-row strong {
+        font-size: 16px;
+      }
+
+      .class-row span {
+        color: var(--text-muted);
+        font-size: 14px;
+      }
+
+      @media (max-width: 640px) {
         .stats {
-            display: flex;
-            gap: 18px;
-            margin-top: 40px;
+          flex-direction: column;
         }
-
-        .stat-card {
-            flex: 1;
-            background: var(--card);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-        }
-
-        .stat-card span.label {
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .stat-card div.value {
-            font-size: 36px;
-            font-weight: 600;
-            margin-top: 6px;
-        }
-
-        .class-preview {
-            margin-top: 36px;
-            background: var(--card);
-            border-radius: 18px;
-            padding: 24px;
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
-        }
-
-        .class-preview h3 {
-            margin: 0 0 16px;
-            font-size: 18px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .class-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .class-row:last-child {
-            border-bottom: none;
-        }
-
-        .class-row strong {
-            font-size: 16px;
-        }
-
-        .class-row span {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        @media (max-width: 640px) {
-            .stats {
-                flex-direction: column;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="page">
-        <header>
-            <a href="/logout" class="logout-link">Logout</a>
-            <p>My Classes</p>
-            <h1>
-                Hello,
-                <span th:text="${currentUser != null && currentUser.fullName != null ? currentUser.fullName : currentUser.username}">
-                    Teacher
-                </span>
-            </h1>
-            <p>Manage your teaching flow from one simple dashboard.</p>
-        </header>
+      <header>
+        <a href="/logout" class="logout-link">Logout</a>
+        <p>My Classes</p>
+        <h1>
+          Hello,
+          <span
+            th:text="${currentUser != null && currentUser.fullName != null ? currentUser.fullName : currentUser.username}"
+          >
+            Teacher
+          </span>
+        </h1>
+        <p>Manage your teaching flow from one simple dashboard.</p>
+      </header>
 
-        <div class="stats">
-            <div class="stat-card">
-                <span class="label">Assigned Classes</span>
-                <div class="value" th:text="${classCount}">0</div>
-            </div>
-            <div class="stat-card">
-                <span class="label">Pending Tasks</span>
-                <div class="value">3</div>
-            </div>
+      <div class="stats">
+        <div class="stat-card">
+          <span class="label">Assigned Classes</span>
+          <div class="value" th:text="${classCount}">0</div>
         </div>
+        <div class="stat-card">
+          <span class="label">Pending Tasks</span>
+          <div class="value">3</div>
+        </div>
+      </div>
 
-        <section class="quick-actions">
-            <a class="action-card primary" href="/admin/classes">
-                <h2>My Classes</h2>
-                <p>Review class rosters, schedules and student progress.</p>
-            </a>
-            <a class="action-card" href="javascript:void(0)">
-                <h2>My Tests <span class="badge">Soon</span></h2>
-                <p>Build, assign and review quizzes in one place.</p>
-            </a>
-            <a class="action-card" href="javascript:void(0)">
-                <h2>Settings <span class="badge">Soon</span></h2>
-                <p>Update your profile and configure notifications.</p>
-            </a>
-        </section>
+      <section class="quick-actions">
+        <a class="action-card primary" href="/admin/classes">
+          <h2>My Classes</h2>
+          <p>Review class rosters, schedules and student progress.</p>
+        </a>
+        <a class="action-card" href="/admin/tests">
+          <h2>My Tests</h2>
+          <p>Build, assign and review quizzes in one place.</p>
+        </a>
 
-        <section class="class-preview" th:if="${assignedClasses != null && !assignedClasses.isEmpty()}">
-            <h3>Upcoming Classes</h3>
-            <div class="class-row"
-                 th:each="classEntity, iterStat : ${assignedClasses}"
-                 th:if="${iterStat.index < 4}">
-                <div>
-                    <strong th:text="${classEntity.name}">11A</strong>
-                    <br />
-                    <span th:text="${classEntity.schedule != null ? classEntity.schedule.replace(',', ', ') : 'Schedule TBD'}">Tuesday, Thursday</span>
-                </div>
-                <a th:href="@{/admin/classes/{id}(id=${classEntity.id})}" style="color: var(--accent); text-decoration: none;">
-                    View →
-                </a>
-            </div>
-        </section>
+        <a class="action-card" href="javascript:void(0)">
+          <h2>Settings <span class="badge">Soon</span></h2>
+          <p>Update your profile and configure notifications.</p>
+        </a>
+      </section>
+
+      <section
+        class="class-preview"
+        th:if="${assignedClasses != null && !assignedClasses.isEmpty()}"
+      >
+        <h3>Upcoming Classes</h3>
+        <div
+          class="class-row"
+          th:each="classEntity, iterStat : ${assignedClasses}"
+          th:if="${iterStat.index < 4}"
+        >
+          <div>
+            <strong th:text="${classEntity.name}">11A</strong>
+            <br />
+            <span
+              th:text="${classEntity.schedule != null ? classEntity.schedule.replace(',', ', ') : 'Schedule TBD'}"
+              >Tuesday, Thursday</span
+            >
+          </div>
+          <a
+            th:href="@{/admin/classes/{id}(id=${classEntity.id})}"
+            style="color: var(--accent); text-decoration: none"
+          >
+            View →
+          </a>
+        </div>
+      </section>
     </div>
-</body>
+  </body>
 </html>
